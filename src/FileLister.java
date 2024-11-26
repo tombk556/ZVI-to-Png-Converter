@@ -4,35 +4,41 @@ import java.util.List;
 
 public class FileLister {
 
-    public static List<String> listFilesForFolder(final File folder, final String extension) {
-        List<String> fileNames = new ArrayList<>();
-        listFilesForFolder(folder, extension, fileNames);
-        return fileNames;
+    public static List<String> listFilesWithExtension(final File rootFolder, final String extension) {
+        List<String> filePaths = new ArrayList<>();
+        if (rootFolder.exists() && rootFolder.isDirectory()) {
+            listFilesRecursively(rootFolder, extension, filePaths);
+        } else {
+            throw new IllegalArgumentException("The provided root folder is invalid or does not exist: " + rootFolder);
+        }
+        return filePaths;
     }
 
-    private static void listFilesForFolder(final File folder, final String extension, List<String> fileNames) {
+    private static void listFilesRecursively(final File folder, final String extension, List<String> filePaths) {
         for (final File fileEntry : folder.listFiles()) {
             if (fileEntry.isDirectory()) {
-                listFilesForFolder(fileEntry, extension, fileNames);
+                listFilesRecursively(fileEntry, extension, filePaths);
             } else {
                 if (fileEntry.getName().toLowerCase().endsWith(extension.toLowerCase())) {
-                    fileNames.add(fileEntry.getName());
+                    filePaths.add(fileEntry.getAbsolutePath());
                 }
             }
         }
     }
 
     public static void main(String[] args) {
-        String path = "/Users/tom/Documents/AWI Msc./3. Semester/FuE/featurebasedradiomics/Data/d65/SCD50Glios_U87-MG-Tshp53_2_17.5Gy_d65 26.04.2017 24847";
-        File folder = new File(path);
-        String extension = ".zvi";
+        // Example usage
+        File rootDirectory = new File("/Users/tom/Documents/AWI Msc./3. Semester/FuE/featurebasedradiomics/Data/test"); // Change this to your root folder path
+        String extension = ".zvi"; // Change this to the desired file extension
 
-        List<String> fileNames = listFilesForFolder(folder, extension);
-
-        for (String fileName : fileNames) {
-            String fullPathName = path + fileName;
-            System.out.println(fullPathName);
-            break;
+        try {
+            List<String> files = listFilesWithExtension(rootDirectory, extension);
+            System.out.println("Files with extension '" + extension + "':");
+            for (String filePath : files) {
+                System.out.println(filePath);
+            }
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage());
         }
     }
 }
