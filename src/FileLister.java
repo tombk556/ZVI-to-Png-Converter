@@ -26,19 +26,4 @@ public class FileLister {
         }
     }
 
-    public static void main(String[] args) {
-        // Example usage
-        File rootDirectory = new File("/Users/tom/Documents/AWI Msc./3. Semester/FuE/featurebasedradiomics/Data/test"); // Change this to your root folder path
-        String extension = ".zvi"; // Change this to the desired file extension
-
-        try {
-            List<String> files = listFilesWithExtension(rootDirectory, extension);
-            System.out.println("Files with extension '" + extension + "':");
-            for (String filePath : files) {
-                System.out.println(filePath);
-            }
-        } catch (IllegalArgumentException e) {
-            System.err.println(e.getMessage());
-        }
-    }
 }

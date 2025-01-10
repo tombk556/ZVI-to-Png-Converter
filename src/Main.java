@@ -4,7 +4,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        String path = "/Users/tom/Documents/AWI Msc./3. Semester/FuE/featurebasedradiomics/Data/test/";
+        String path = "/Users/tom/Documents/AWI Msc./3. Semester/FuE/featurebasedradiomics/Data/d65/";
         File folder = new File(path);
         String extension = ".zvi";
 
